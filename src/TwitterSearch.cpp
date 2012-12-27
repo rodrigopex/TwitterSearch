@@ -5,9 +5,15 @@
 TwitterSearch::TwitterSearch(Application *app) :
 		QObject(app) {
 	qRegisterMetaType<GroupDataModel *>("GroupDataModel *");
-	m_model = new GroupDataModel();
+	qRegisterMetaType<ArrayDataModel *>("ArrayDataModel *");
+	m_model = new GroupDataModel;
 	m_model->setSortedAscending(false);
 
+	m_recentsModel = new ArrayDataModel;
+
+	QSettings settings;
+	m_recents = settings.value("recents", QVariant(QVariantList())).toList();
+	this->filterRecents("");
 	connect(app, SIGNAL(thumbnail()), this, SLOT(createCover()));
 
 	/*
@@ -43,15 +49,16 @@ void TwitterSearch::searchKey(QString rawKey) {
 
 void TwitterSearch::saveSearchKey(QString key) {
 	QSettings settings;
-	QStringList recents =
-			settings.value("recents", QVariant(QStringList())).toStringList();
-	qDebug() << recents;
-	if (!recents.contains(key, Qt::CaseInsensitive)) {
-		recents.append(key);
-		recents.sort();
-		settings.setValue("recents", QVariant(recents));
-//		settings.sync();
+	QVariant vKey(key.toLower());
+	//m_recents = settings.value("recents", QVariant(QVariantList())).toList();
+	qDebug() << m_recents;
+	if (!m_recents.contains(vKey)) {
+		m_recents.append(vKey);
+		settings.setValue("recents", QVariant(m_recents));
+		settings.sync();
 	}
+	m_recentsModel->clear();
+	m_recentsModel->append(m_recents);
 }
 
 void TwitterSearch::createCover() {
@@ -81,4 +88,18 @@ void TwitterSearch::onNewDataModelReady(QString data) {
 	m_model->insertList(jsonData.toMap()["results"].toList());
 	emit this->onModelChanged();
 
+}
+
+ArrayDataModel * TwitterSearch::recentsModel() {
+	return m_recentsModel;
+}
+
+void TwitterSearch::filterRecents(QString key) {
+	m_recentsModel->clear();
+	QString tmp = key.toLower();
+	foreach(QVariant vr, m_recents){
+	if((vr.toString()).startsWith(tmp)) {
+		m_recentsModel->append(vr);
+	}
+}
 }

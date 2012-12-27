@@ -5,6 +5,7 @@
 #include <QObject>
 #include <bb/data/JsonDataAccess>
 #include <bb/cascades/GroupDataModel>
+#include <bb/cascades/ArrayDataModel>
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/AbstractPane>
@@ -21,6 +22,7 @@ using namespace bb::data;
 class TwitterSearch: public QObject {
 	Q_OBJECT
 	Q_PROPERTY(GroupDataModel * model READ model NOTIFY onModelChanged);
+	Q_PROPERTY(ArrayDataModel * recentsModel READ recentsModel NOTIFY onRecentsModelChanged);
 public:
 	TwitterSearch(Application *app);
 	virtual ~TwitterSearch() {
@@ -28,15 +30,22 @@ public:
 	Q_INVOKABLE
 	GroupDataModel * model();
 	Q_INVOKABLE
+	ArrayDataModel * recentsModel();
+	Q_INVOKABLE
 	void searchKey(QString rawKey);
+	Q_INVOKABLE
+	void filterRecents(QString key);
 	void saveSearchKey(QString key);
 signals:
 	void onModelChanged();
+	void onRecentsModelChanged();
 public slots:
 	void onNewDataModelReady(QString data);
 	void createCover();
 private:
 	GroupDataModel * m_model;
+	ArrayDataModel * m_recentsModel;
+	QVariantList m_recents;
 	Network m_network;
 
 };
