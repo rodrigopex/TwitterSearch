@@ -1,11 +1,17 @@
-// Default empty project template
 import bb.cascades 1.0
-
-// creates one page with a label
 
 Page {
     titleBar: TitleBar {
+        id: tb
         title: "Twitter search"
+        appearance: TitleBarAppearance.Branded
+        attachedObjects: [
+            OrientationHandler {
+                onOrientationAboutToChange: {
+                    tb.appearance = (orientation == UIOrientation.Landscape ? TitleBarAppearance.Plain : TitleBarAppearance.Branded)
+                }
+            }
+        ]
     }
     Container {
         layout: DockLayout {
@@ -16,10 +22,13 @@ Page {
             function hide() {
                 console.log("hiding...")
                 loadingPanel.delegateActive = false
-                _controller.onModelChanged.disconnect(loadingPanel.hide)
             }
             onDelegateActiveChanged: {
-                if (active) _controller.onModelChanged.connect(loadingPanel.hide)
+                if (active) {
+                    _controller.onModelChanged.connect(loadingPanel.hide)
+                } else {
+                    _controller.onModelChanged.disconnect(loadingPanel.hide)
+                }
             }
             horizontalAlignment: HorizontalAlignment.Center
             verticalAlignment: VerticalAlignment.Center
@@ -59,6 +68,7 @@ Page {
                     id: searchKey
                     hintText: "Search"
                     input {
+                        submitKey: SubmitKey.Search
                         onSubmitted: {
                             console.log("Loading " + searchKey.text + "...")
                             _controller.searchKey(searchKey.text)
@@ -75,9 +85,9 @@ Page {
                 ListView {
                     id: list
                     dataModel: _controller.model
-//                    function itemType(data, indexPath) {
-//                        return "item";
-//                    }
+                    //                    function itemType(data, indexPath) {
+                    //                        return "item";
+                    //                    }
                     listItemComponents: [
                         ListItemComponent {
                             type: "item"

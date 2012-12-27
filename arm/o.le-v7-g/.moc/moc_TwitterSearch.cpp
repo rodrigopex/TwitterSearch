@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'TwitterSearch.hpp'
 **
-** Created: Wed Dec 26 21:47:39 2012
+** Created: Thu Dec 27 12:38:37 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,8 +23,8 @@ static const uint qt_meta_data_TwitterSearch[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
-       1,   34, // properties
+       5,   14, // methods
+       1,   39, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -35,13 +35,14 @@ static const uint qt_meta_data_TwitterSearch[] = {
 
  // slots: signature, parameters, type, tag, flags
       37,   32,   14,   14, 0x0a,
+      66,   14,   14,   14, 0x0a,
 
  // methods: signature, parameters, type, tag, flags
-      82,   14,   66,   14, 0x02,
-      94,   90,   14,   14, 0x02,
+      96,   14,   80,   14, 0x02,
+     111,  104,   14,   14, 0x02,
 
  // properties: name, type, flags
-     113,   66, 0x00495009,
+     130,   80, 0x00495009,
 
  // properties: notify_signal_id
        0,
@@ -51,8 +52,8 @@ static const uint qt_meta_data_TwitterSearch[] = {
 
 static const char qt_meta_stringdata_TwitterSearch[] = {
     "TwitterSearch\0\0onModelChanged()\0data\0"
-    "onNewDataModelReady(QString)\0"
-    "GroupDataModel*\0model()\0key\0"
+    "onNewDataModelReady(QString)\0createCover()\0"
+    "GroupDataModel*\0model()\0rawKey\0"
     "searchKey(QString)\0model\0"
 };
 
@@ -64,9 +65,10 @@ void TwitterSearch::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         switch (_id) {
         case 0: _t->onModelChanged(); break;
         case 1: _t->onNewDataModelReady((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: { GroupDataModel* _r = _t->model();
+        case 2: _t->createCover(); break;
+        case 3: { GroupDataModel* _r = _t->model();
             if (_a[0]) *reinterpret_cast< GroupDataModel**>(_a[0]) = _r; }  break;
-        case 3: _t->searchKey((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 4: _t->searchKey((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -104,9 +106,9 @@ int TwitterSearch::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
 #ifndef QT_NO_PROPERTIES
       else if (_c == QMetaObject::ReadProperty) {

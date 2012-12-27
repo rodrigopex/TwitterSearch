@@ -8,6 +8,10 @@
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
 #include <bb/cascades/AbstractPane>
+#include <bb/cascades/Container>
+#include <bb/cascades/SceneCover>
+#include <qvariant.h>
+#include <QSettings>
 
 #include "Network.h"
 
@@ -21,12 +25,16 @@ public:
 	TwitterSearch(Application *app);
 	virtual ~TwitterSearch() {
 	}
-	Q_INVOKABLE GroupDataModel * model();
-	Q_INVOKABLE void searchKey(QString key);
+	Q_INVOKABLE
+	GroupDataModel * model();
+	Q_INVOKABLE
+	void searchKey(QString rawKey);
+	void saveSearchKey(QString key);
 signals:
 	void onModelChanged();
 public slots:
 	void onNewDataModelReady(QString data);
+	void createCover();
 private:
 	GroupDataModel * m_model;
 	Network m_network;
