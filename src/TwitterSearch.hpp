@@ -27,14 +27,11 @@ public:
 	TwitterSearch(Application *app);
 	virtual ~TwitterSearch() {
 	}
-	Q_INVOKABLE
-	GroupDataModel * model();
-	Q_INVOKABLE
-	ArrayDataModel * recentsModel();
-	Q_INVOKABLE
-	void searchKey(QString rawKey);
-	Q_INVOKABLE
-	void filterRecents(QString key);
+	Q_INVOKABLE GroupDataModel * model();
+	Q_INVOKABLE ArrayDataModel * recentsModel();
+	Q_INVOKABLE void searchKey(QString rawKey);
+	Q_INVOKABLE void filterRecents(QString key);
+	Q_INVOKABLE void clearRecents();
 	void saveSearchKey(QString key);
 signals:
 	void onModelChanged();

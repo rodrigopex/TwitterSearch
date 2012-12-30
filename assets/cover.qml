@@ -23,10 +23,11 @@ Container {
         }
         Label {
             id: data
-            text: {
-                var dat = new Date(lastTweet.created_at)
-                return Qt.formatDate(dat, "dd MMM")
-            }
+            text: "today"
+//            text: {
+//                var dat = new Date(lastTweet.created_at)
+//                return Qt.formatDate(dat, "dd MMM")
+//            }
             textStyle.fontSize: FontSize.XXSmall
             textStyle.color: Color.create("#f8f8f8")
             verticalAlignment: VerticalAlignment.Center

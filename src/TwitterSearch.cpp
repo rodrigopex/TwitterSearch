@@ -53,12 +53,14 @@ void TwitterSearch::saveSearchKey(QString key) {
 	//m_recents = settings.value("recents", QVariant(QVariantList())).toList();
 	qDebug() << m_recents;
 	if (!m_recents.contains(vKey)) {
-		m_recents.append(vKey);
+		m_recents.insert(0, vKey);
 		settings.setValue("recents", QVariant(m_recents));
 		settings.sync();
+	} else {
+		m_recents.move(m_recents.indexOf(vKey), 0);
 	}
 	m_recentsModel->clear();
-	m_recentsModel->append(m_recents);
+	m_recentsModel->insert(0, m_recents);
 }
 
 void TwitterSearch::createCover() {
@@ -79,15 +81,26 @@ void TwitterSearch::createCover() {
 	}
 }
 
+bool lessThanTweet(const QVariant& a, const QVariant& b) {
+	return a.toMap()["created_at"].toDate() < b.toMap()["created_at"].toDate();
+}
+
 void TwitterSearch::onNewDataModelReady(QString data) {
 	disconnect(&m_network, SIGNAL(dataReady(QString)), this,
 			SLOT(onNewDataModelReady(QString)));
 	JsonDataAccess jda;
 	QVariant jsonData = jda.loadFromBuffer(data);
 	m_model->clear();
-	m_model->insertList(jsonData.toMap()["results"].toList());
+	QVariantList results = jsonData.toMap()["results"].toList();
+	QVariantList resultsWDate;
+	foreach(QVariant tweet, results){
+		QVariantMap tweetWDate = tweet.toMap();
+		tweetWDate["created_at"] = QVariant(QDate::fromString(tweetWDate["created_at"].toString()));
+		resultsWDate.append(QVariant(tweetWDate));
+	}
+	qSort(resultsWDate.begin(), resultsWDate.end(), lessThanTweet);
+	m_model->insertList(resultsWDate);
 	emit this->onModelChanged();
-
 }
 
 ArrayDataModel * TwitterSearch::recentsModel() {
@@ -98,8 +111,14 @@ void TwitterSearch::filterRecents(QString key) {
 	m_recentsModel->clear();
 	QString tmp = key.toLower();
 	foreach(QVariant vr, m_recents){
-	if((vr.toString()).startsWith(tmp)) {
-		m_recentsModel->append(vr);
+		if((vr.toString()).startsWith(tmp)) {
+			m_recentsModel->append(vr);
+		}
 	}
 }
+
+void TwitterSearch::clearRecents() {
+	QSettings settings;
+	settings.clear();
+	m_recents.clear();
 }
