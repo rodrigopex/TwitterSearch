@@ -80,13 +80,12 @@ Page {
                             loadingPanel.delegateActive = true
                             searchKey.text = key
                             searchKey.loseFocus()
-                            //                            searchKey.focused = false
                             recents.visible = false
                         }
                         listItemComponents: [
                             ListItemComponent {
                                 type: ""
-                                ItemTip {
+                                RecentItem {
                                     id: item
                                     text: ListItemData
                                 }
@@ -119,15 +118,6 @@ Page {
                                 message: ListItemData.text
                                 dateString: Qt.formatDate(ListItemData.created_at, "dd MMM")
                             }
-                            //                            StandardListItem {
-                            //                                title: ListItemData.from_user
-                            //                                description: ListItemData.text
-                            //                                status: Qt.formatDate(ListItemData.created_at, "dd MMM")
-                            ////                                status: {
-                            ////                                    var dat = new Date(ListItemData.created_at)
-                            ////                                    return Qt.formatDate(dat, "dd MMM")
-                            ////                                }
-                            //                            }
                         }
                     ]
                 }

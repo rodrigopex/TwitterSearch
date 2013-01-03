@@ -1,8 +1,5 @@
 import bb.cascades 1.0
 
-//Page {
-//    Container {
-
 Container {
     preferredHeight: 396
     preferredWidth: 334
@@ -24,10 +21,6 @@ Container {
         Label {
             id: data
             text: "today"
-//            text: {
-//                var dat = new Date(lastTweet.created_at)
-//                return Qt.formatDate(dat, "dd MMM")
-//            }
             textStyle.fontSize: FontSize.XXSmall
             textStyle.color: Color.create("#f8f8f8")
             verticalAlignment: VerticalAlignment.Center
@@ -47,5 +40,3 @@ Container {
         }
     }
 }
-//    }
-//}
