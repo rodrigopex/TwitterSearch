@@ -11,11 +11,11 @@
 #include <qobject.h>
 #include <QtNetwork>
 
-class Network: public QObject {
+class RPXNetwork: public QObject {
 Q_OBJECT
 public:
-	Network();
-	virtual ~Network();
+	RPXNetwork();
+	virtual ~RPXNetwork();
 	void loadURL(QUrl url);
 	QString getData();
 signals:

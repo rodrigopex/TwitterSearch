@@ -43,7 +43,7 @@ private:
 	GroupDataModel * m_model;
 	ArrayDataModel * m_recentsModel;
 	QVariantList m_recents;
-	Network m_network;
+	RPXNetwork m_network;
 
 };
 

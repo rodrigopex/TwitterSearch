@@ -7,19 +7,19 @@
 
 #include "Network.h"
 
-Network::Network() {
+RPXNetwork::RPXNetwork() {
 }
 
-Network::~Network() {
+RPXNetwork::~RPXNetwork() {
 }
 
-void Network::loadURL(QUrl url) {
+void RPXNetwork::loadURL(QUrl url) {
 	connect(&m_manager, SIGNAL(finished(QNetworkReply*)),
 	        this, SLOT(replyFinished(QNetworkReply*)));
 	m_manager.get(QNetworkRequest(url));
 }
 
-void Network::replyFinished(QNetworkReply * reply) {
+void RPXNetwork::replyFinished(QNetworkReply * reply) {
 	disconnect(&m_manager, SIGNAL(finished(QNetworkReply*)),
 		        this, SLOT(replyFinished(QNetworkReply*)));
 	m_data = QString(reply->readAll());
